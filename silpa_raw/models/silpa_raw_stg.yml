@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: silpa_raw_stg.yml
+    description: "staging table for silpa_raw"
+    # tests:
+    #   - fin_commons.staging_record_count:
+    #      source_model: source('dmn01_finsoi_bqd_silpa','tester_table')
+    #      error_model: ref('tops_boca_daily_staging_errors')
+    #      tags: ['CountUnitTest','UnitTest']
+    columns:
+      - name: 'testing_srgt_key'
+        description: ''
+      - name: 'name'
+        description: ''
+        tests:
+          - fin_commons.datatype:
+              accepted_type: STRING
+              tags: [ 'DatatypeUnitTest','UnitTest' ]
+      - name: 'branch'
+        description: ''
+      - name: 'id'
+        description: ''
+        tests:
+          - fin_commons.datatype:
+              accepted_type: INT64
+              tags: [ 'DatatypeUnitTest','UnitTest' ]
+      - name: 'date_year'
+        description: ''
+        tests:
+          - fin_commons.datatype:
+              accepted_type: DATE
+              tags: ['StructuralUnitTesting','DataTypeUnitTest']
+      - name: 'processed_file_name'
+        description: 'source file-name'
+      - name: 'processed_ts'
+        description: 'time of ingestion in raw-format'
+        tests:
+          - fin_commons.datatype:
+              accepted_type: TIMESTAMP
+              tags: [ 'DatatypeUnitTest','UnitTest' ]
+          - fin_commons.partition_column:
+              tags: [ 'PartitionUnitTest','UnitTest' ]
+          - not_null:
+                tags: [ 'StructuralUnitTesting','ConstraintUnitTest','UnitTest' ]
